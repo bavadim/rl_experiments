@@ -82,6 +82,7 @@ def main(episodes):
             break
             
     env.close()
+	torch.save(policy, 'models/')
 
 
 main(episodes = 1000000)
