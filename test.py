@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import gym
 import numpy as np
 import torch
@@ -6,7 +8,6 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.distributions import Categorical
-
 
 
 env = gym.make('CartPole-v1')
@@ -31,6 +32,8 @@ class Policy(nn.Module):
         return model(x)
     
 policy = Policy()
+if torch.cuda.is_available():
+    policy.cuda()
 optimizer = optim.Adam(policy.parameters(), lr=0.01)
 
 def select_action(observation):
@@ -82,7 +85,7 @@ def main(episodes):
             break
             
     env.close()
-	torch.save(policy, 'models/')
+    torch.save(policy, 'models/')
 
 
 main(episodes = 1000000)
